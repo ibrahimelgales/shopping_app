@@ -31,7 +31,8 @@ class HomeScreenTest {
                 onSearchQueryChanged = {},
                 onEditClick = {},
                 deleteProduct = {},
-                searchQuery = ""
+                onFilterClicked = {},
+                searchQuery = "",
             )
         }
 
@@ -57,6 +58,7 @@ class HomeScreenTest {
                 onSearchQueryChanged = {},
                 onEditClick = {},
                 deleteProduct = {},
+                onFilterClicked = {},
                 searchQuery = ""
             )
 

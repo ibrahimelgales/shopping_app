@@ -40,7 +40,11 @@ class ProductDaoTest {
             insertedEntity,
         )
 
-        val savedNEntity = productDao.getProductEntities(setOf(id), true)
+        val savedNEntity = productDao.getProductEntities(
+            setOf(id),
+            isAsc = true,
+            showBoughtProducts = true
+        )
             .first().first()
 
         assertEquals(
