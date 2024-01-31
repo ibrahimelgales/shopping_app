@@ -32,6 +32,7 @@ interface ProductDao {
     @Query(
         value = """
         SELECT * FROM product_resources
+        WHERE isProductBought = 0
         ORDER BY CASE WHEN :isAsc = 1 THEN id END ASC, CASE WHEN :isAsc = 0 THEN id END DESC
     """,
     )
@@ -40,7 +41,7 @@ interface ProductDao {
     @Query(
         value = """
         SELECT * FROM product_resources
-        WHERE id IN (:ids)
+        WHERE id IN (:ids) AND isProductBought = 0
         ORDER BY CASE WHEN :isAsc = 1 THEN id END ASC, CASE WHEN :isAsc = 0 THEN id END DESC
     """,
     )

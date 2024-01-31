@@ -88,23 +88,22 @@ internal fun UpsertScreen(
 
             )
 
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text("Product Bought")
-            Switch(
-                checked = isProductBought,
-                onCheckedChange = { isProductBought = it },
-            )
-        }
+        if (isEdit)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Product Bought")
+                Switch(
+                    checked = isProductBought,
+                    onCheckedChange = { isProductBought = it },
+                )
+            }
 
         Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
             AlmatarButton(modifier = Modifier.wrapContentWidth(),
                 text = { Text(if (isEdit) "Update" else "Create") },
