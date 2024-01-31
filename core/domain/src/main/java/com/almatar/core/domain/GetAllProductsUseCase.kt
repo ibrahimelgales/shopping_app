@@ -13,6 +13,6 @@ import javax.inject.Inject
 class GetAllProductsUseCase @Inject constructor(
     private val productRepository: ProductRepository,
 ) {
-     operator fun invoke(searchQuery: String, isAsc : Boolean): Flow<List<Product>> =
-        productRepository.getProducts(searchQuery, isAsc)
+     operator fun invoke(searchQuery: String, isAsc : Boolean, showBoughtProducts:Boolean): Flow<List<Product>> =
+        productRepository.getProducts(searchQuery, isAsc, showBoughtProducts)
 }

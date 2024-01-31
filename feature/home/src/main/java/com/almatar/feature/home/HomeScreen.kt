@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -62,6 +63,7 @@ internal fun HomeRoute(
     HomeScreen(
         allProductsState,
         onCreateProductClicked,
+        viewModel::changeShowBoughtProducts,
         viewModel::changeSortingById,
         viewModel::onSearchQueryChanged,
         onEditClick,
@@ -75,6 +77,7 @@ internal fun HomeRoute(
 internal fun HomeScreen(
     allProductsState: AllProductsResultUiState,
     onCreateProductClicked: () -> Unit,
+    onFilterClicked: () -> Unit,
     changeSortingById: () -> Unit,
     onSearchQueryChanged: (String) -> Unit,
     onEditClick: (Product) -> Unit,
@@ -85,9 +88,8 @@ internal fun HomeScreen(
 
 
     Scaffold(floatingActionButton = {
-        CreateAndSortFAB(
-            onCreateProductClicked,
-            changeSortingById
+        AllFABs(
+            onCreateProductClicked,onFilterClicked, changeSortingById
         )
     }, topBar = {
         SearchTextField(
@@ -249,12 +251,26 @@ fun SortFAB(onSortClicked: () -> Unit) {
     }
 }
 
+@Composable
+fun FilterFAB(onFilterClicked: () -> Unit) {
+    FloatingButton(Icons.Default.FilterAlt) {
+        onFilterClicked()
+    }
+}
+
 
 @Composable
-fun CreateAndSortFAB(onCreateProductClicked: () -> Unit, onSortClicked: () -> Unit) {
+fun AllFABs(
+    onCreateProductClicked: () -> Unit,
+    onFilterClicked: () -> Unit,
+    onSortClicked: () -> Unit
+) {
     Column {
         CreateFAB(onCreateProductClicked)
+        Spacer(modifier = Modifier.height(15.dp))
+        FilterFAB(onFilterClicked)
         Spacer(modifier = Modifier.height(15.dp))
         SortFAB(onSortClicked)
     }
 }
+

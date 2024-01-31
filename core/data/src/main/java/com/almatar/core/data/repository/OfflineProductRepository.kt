@@ -24,14 +24,18 @@ internal class OfflineProductRepository @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
 ) : ProductRepository {
 
-    override fun getProducts(searchQuery: String, isAsc: Boolean): Flow<List<Product>> {
+    override fun getProducts(
+        searchQuery: String,
+        isAsc: Boolean,
+        showBoughtProducts: Boolean
+    ): Flow<List<Product>> {
 
         val productFlow = if (searchQuery.isBlank()) {
-            productDao.getAllProducts(isAsc)
+            productDao.getAllProducts(isAsc,showBoughtProducts)
         } else {
             val productIds = productDaoFts.searchAllProducts("*$searchQuery*")
             productIds.mapLatest { it.toSet() }.distinctUntilChanged().flatMapLatest {
-                productDao.getProductEntities(it, isAsc)
+                productDao.getProductEntities(it, isAsc,showBoughtProducts)
             }
         }
 

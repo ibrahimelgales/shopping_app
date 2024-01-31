@@ -1,6 +1,5 @@
 package com.almatar.feature.home
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,22 +27,26 @@ class HomeViewModel @Inject constructor(
 
     val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY, initialValue = "")
     private val isAsc = MutableStateFlow(false)
+    private val showBoughtProducts = MutableStateFlow(false)
 
     val allProductsResultUiState: StateFlow<AllProductsResultUiState> = isAsc.flatMapLatest { asc ->
         searchQuery.flatMapLatest { query ->
-            getAllProductsUseCase(query, asc)
-                .asResult().map { result ->
-                    when (result) {
-                        is Result.Success -> result.data.let {
-                            if (it.isEmpty()) AllProductsResultUiState.NoProductsFound else AllProductsResultUiState.Success(
-                                it
-                            )
-                        }
+            showBoughtProducts.flatMapLatest { showAllProducts ->
+                getAllProductsUseCase(query, asc, showAllProducts)
+                    .asResult().map { result ->
+                        when (result) {
+                            is Result.Success -> result.data.let {
+                                if (it.isEmpty()) AllProductsResultUiState.NoProductsFound else AllProductsResultUiState.Success(
+                                    it
+                                )
+                            }
 
-                        is Result.Loading -> AllProductsResultUiState.Loading
-                        is Result.Error -> AllProductsResultUiState.LoadFailed
+                            is Result.Loading -> AllProductsResultUiState.Loading
+                            is Result.Error -> AllProductsResultUiState.LoadFailed
+                        }
                     }
-                }
+            }
+
         }
 
     }.stateIn(
@@ -61,6 +64,10 @@ class HomeViewModel @Inject constructor(
 
     fun changeSortingById() {
         isAsc.value = !isAsc.value
+    }
+
+    fun changeShowBoughtProducts() {
+        showBoughtProducts.value = !showBoughtProducts.value
     }
 
     fun onSearchQueryChanged(query: String) {

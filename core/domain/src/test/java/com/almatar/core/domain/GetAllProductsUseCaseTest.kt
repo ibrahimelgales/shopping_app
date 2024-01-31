@@ -24,7 +24,7 @@ class GetAllProductsUseCaseTest {
     @Test
     fun whenQueryBlank_allProductsAreReturned() = runTest {
         // Obtain a stream of all products since query is blank.
-        val allProducts = useCase("", true)
+        val allProducts = useCase(searchQuery = "", isAsc = true, showBoughtProducts = true)
 
         // Send some test products.
         productResourcesTestData.forEach {

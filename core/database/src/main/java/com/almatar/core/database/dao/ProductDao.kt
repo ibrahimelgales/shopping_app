@@ -32,25 +32,29 @@ interface ProductDao {
     @Query(
         value = """
         SELECT * FROM product_resources
-        WHERE isProductBought = 0
+        WHERE (:showBoughtProducts = 1 OR isProductBought = 0)
         ORDER BY CASE WHEN :isAsc = 1 THEN id END ASC, CASE WHEN :isAsc = 0 THEN id END DESC
     """,
     )
-    fun getAllProducts( isAsc : Boolean): Flow<List<ProductEntity>>
+    fun getAllProducts(isAsc: Boolean, showBoughtProducts: Boolean): Flow<List<ProductEntity>>
 
     @Query(
         value = """
         SELECT * FROM product_resources
-        WHERE id IN (:ids) AND isProductBought = 0
+        WHERE id IN (:ids) AND (:showBoughtProducts = 1 OR isProductBought = 0)
         ORDER BY CASE WHEN :isAsc = 1 THEN id END ASC, CASE WHEN :isAsc = 0 THEN id END DESC
     """,
     )
-    fun getProductEntities(ids: Set<Long>, isAsc : Boolean): Flow<List<ProductEntity>>
+    fun getProductEntities(
+        ids: Set<Long>,
+        isAsc: Boolean,
+        showBoughtProducts: Boolean
+    ): Flow<List<ProductEntity>>
 
     @Upsert
     suspend fun insertOrReplaceProduct(entity: ProductEntity)
 
     @Query(value = "DELETE FROM product_resources WHERE id == :targetId")
-    suspend fun deleteProductById(targetId : Long)
+    suspend fun deleteProductById(targetId: Long)
 
 }

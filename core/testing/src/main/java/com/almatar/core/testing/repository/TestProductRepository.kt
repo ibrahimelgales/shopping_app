@@ -18,10 +18,10 @@ class TestProductRepository : ProductRepository {
 
     private val currentProducts = mutableListOf<Product>()
 
-     val productIdsSelected = productsFlow.mapLatest { it.map { it.id } }.drop(2)
+     private val productIdsSelected = productsFlow.mapLatest { it.map { it.id } }.drop(2)
 
 
-    override fun getProducts(searchQuery: String, isAsc: Boolean): Flow<List<Product>> {
+    override fun getProducts(searchQuery: String, isAsc: Boolean,showBoughtProducts:Boolean): Flow<List<Product>> {
         return if (searchQuery.isBlank()) {
             productsFlow
         } else {
