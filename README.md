@@ -6,7 +6,6 @@ Shopping app show products with options to CRUD.
 - [Introduction](#introduction)
 - [Features](#features)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -17,7 +16,7 @@ Shopping app show products with options to CRUD.
 
 An app for shopping that allows users to create, Edit, delete, and read a list of products.
 
-## Features
+## Technologies
 
 - Hilt for DI
 - Kotlin Compose
@@ -31,11 +30,9 @@ An app for shopping that allows users to create, Edit, delete, and read a list o
 
 ## Getting Started
 
-### Prerequisites
-
 ### Installation
 
-Step-by-step instructions on how to install and set up your project. Include code snippets if necessary.
+ install and set up your project.
 
 ```bash
 git clone git@github.com:ibrahimelgales/shopping_app.git
