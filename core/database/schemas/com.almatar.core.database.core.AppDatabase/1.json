@@ -1,0 +1,113 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "326bd282a9b9e9306117b35ffd20b2dc",
+    "entities": [
+      {
+        "tableName": "product_resources",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rowid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name_fts` TEXT NOT NULL, `quantity_fts` INTEGER NOT NULL, `description_fts` TEXT NOT NULL, `is_product_bought_fts` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "rowid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name_fts",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantity",
+            "columnName": "quantity_fts",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description_fts",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isProductBought",
+            "columnName": "is_product_bought_fts",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "rowid"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "ftsVersion": "FTS4",
+        "ftsOptions": {
+          "tokenizer": "simple",
+          "tokenizerArgs": [],
+          "contentTable": "product_resources",
+          "languageIdColumnName": "",
+          "matchInfo": "FTS4",
+          "notIndexedColumns": [],
+          "prefixSizes": [],
+          "preferredOrder": "ASC"
+        },
+        "contentSyncTriggers": [
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_product_resources_fts_BEFORE_UPDATE BEFORE UPDATE ON `product_resources` BEGIN DELETE FROM `product_resources_fts` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_product_resources_fts_BEFORE_DELETE BEFORE DELETE ON `product_resources` BEGIN DELETE FROM `product_resources_fts` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_product_resources_fts_AFTER_UPDATE AFTER UPDATE ON `product_resources` BEGIN INSERT INTO `product_resources_fts`(`docid`, `name_fts`, `quantity_fts`, `description_fts`, `is_product_bought_fts`) VALUES (NEW.`rowid`, NEW.`name_fts`, NEW.`quantity_fts`, NEW.`description_fts`, NEW.`is_product_bought_fts`); END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_product_resources_fts_AFTER_INSERT AFTER INSERT ON `product_resources` BEGIN INSERT INTO `product_resources_fts`(`docid`, `name_fts`, `quantity_fts`, `description_fts`, `is_product_bought_fts`) VALUES (NEW.`rowid`, NEW.`name_fts`, NEW.`quantity_fts`, NEW.`description_fts`, NEW.`is_product_bought_fts`); END"
+        ],
+        "tableName": "product_resources_fts",
+        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`name_fts` TEXT NOT NULL, `quantity_fts` TEXT NOT NULL, `description_fts` TEXT NOT NULL, `is_product_bought_fts` TEXT NOT NULL, content=`product_resources`)",
+        "fields": [
+          {
+            "fieldPath": "nameFts",
+            "columnName": "name_fts",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantityFts",
+            "columnName": "quantity_fts",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descriptionFts",
+            "columnName": "description_fts",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isProductBoughtFts",
+            "columnName": "is_product_bought_fts",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "rowid"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '326bd282a9b9e9306117b35ffd20b2dc')"
+    ]
+  }
+}
